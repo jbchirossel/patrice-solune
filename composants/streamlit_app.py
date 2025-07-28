@@ -2,8 +2,17 @@ import streamlit as st
 import pandas as pd
 import os
 import io
+import base64
+import zipfile
 
-st.title("Traitement de fichiers CSV fournisseur")
+st.title("Traitement de fichiers CSV/Excel fournisseur")
+
+st.info("""
+📋 **Instructions importantes :**
+- **Fichiers Excel** : Si le fichier ne se traite pas, ouvrez-le dans Excel et sauvegardez en format .xlsx
+- **Fichiers CSV** : Assurez-vous qu'ils utilisent le point-virgule (;) comme séparateur
+- **Format recommandé** : .xlsx pour une meilleure compatibilité
+""")
 
 uploaded_files = st.file_uploader("Déposez vos fichiers CSV ou Excel (séparateur ;)", type=["csv", "xlsx"], accept_multiple_files=True)
 
@@ -13,33 +22,29 @@ if uploaded_files:
         # Lecture du fichier uploadé selon l'extension
         if uploaded_file.name.lower().endswith('.xlsx'):
             try:
-                # Forcer l'utilisation d'openpyxl avec gestion d'erreur spécifique
-                df = pd.read_excel(uploaded_file, dtype=str, engine='openpyxl')
+                df = pd.read_excel(uploaded_file, dtype=str)
             except Exception as e:
-                if 'biltinId' in str(e):
-                    st.error("Problème de compatibilité avec le format Excel. Le fichier contient des styles spéciaux.")
-                    st.info("Solution : Convertissez votre fichier Excel en CSV (séparateur ;) dans Excel : Fichier → Enregistrer sous → CSV (séparateur point-virgule)")
-                else:
-                    st.error(f"Impossible de lire le fichier Excel. Erreur: {str(e)}")
-                    st.info("Essayez de convertir votre fichier en CSV (séparateur ;) ou contactez le développeur.")
+                st.error(f"Erreur lors de la lecture du fichier Excel : {e}")
+                st.info("💡 PROBLÈME D'ENCODAGE DÉTECTÉ")
+                st.info("Le fichier semble avoir un encodage spécial (base64, compression, etc.)")
+                st.info("")
+                st.info("🔧 SOLUTIONS :")
+                st.info("1. Ouvrez le fichier dans Excel")
+                st.info("2. Cliquez sur 'Fichier' → 'Enregistrer sous'")
+                st.info("3. Choisissez 'Classeur Excel (.xlsx)'")
+                st.info("4. Rechargez le fichier dans l'application")
+                st.info("")
+                st.info("💡 Alternative : Essayez de renommer le fichier en .csv")
                 continue
         else:
-            # Pour les CSV, essayer différents séparateurs
+            # Essayer différents encodages pour les fichiers CSV
             try:
-                # Essayer d'abord le point-virgule
-                df = pd.read_csv(uploaded_file, sep=';', dtype=str)
-            except:
+                df = pd.read_csv(uploaded_file, sep=';', dtype=str, encoding='utf-8')
+            except UnicodeDecodeError:
                 try:
-                    # Si ça échoue, essayer la virgule
-                    df = pd.read_csv(uploaded_file, sep=',', dtype=str)
-                except:
-                    try:
-                        # Si ça échoue, essayer la tabulation
-                        df = pd.read_csv(uploaded_file, sep='\t', dtype=str)
-                    except Exception as e:
-                        st.error(f"Impossible de lire le fichier CSV. Erreur: {str(e)}")
-                        st.info("Vérifiez que votre fichier utilise un séparateur (; ou , ou tabulation)")
-                        continue
+                    df = pd.read_csv(uploaded_file, sep=';', dtype=str, encoding='latin-1')
+                except UnicodeDecodeError:
+                    df = pd.read_csv(uploaded_file, sep=';', dtype=str, encoding='cp1252')
 
         # Colonnes à garder
         colonnes_a_garder = [
