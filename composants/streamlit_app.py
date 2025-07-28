@@ -13,11 +13,15 @@ if uploaded_files:
         # Lecture du fichier uploadé selon l'extension
         if uploaded_file.name.lower().endswith('.xlsx'):
             try:
-                # Utiliser le moteur par défaut de pandas (plus compatible)
-                df = pd.read_excel(uploaded_file, dtype=str)
+                # Forcer l'utilisation d'openpyxl avec gestion d'erreur spécifique
+                df = pd.read_excel(uploaded_file, dtype=str, engine='openpyxl')
             except Exception as e:
-                st.error(f"Impossible de lire le fichier Excel. Erreur: {str(e)}")
-                st.info("Essayez de convertir votre fichier en CSV (séparateur ;) ou contactez le développeur.")
+                if 'biltinId' in str(e):
+                    st.error("Problème de compatibilité avec le format Excel. Le fichier contient des styles spéciaux.")
+                    st.info("Solution : Convertissez votre fichier Excel en CSV (séparateur ;) dans Excel : Fichier → Enregistrer sous → CSV (séparateur point-virgule)")
+                else:
+                    st.error(f"Impossible de lire le fichier Excel. Erreur: {str(e)}")
+                    st.info("Essayez de convertir votre fichier en CSV (séparateur ;) ou contactez le développeur.")
                 continue
         else:
             # Pour les CSV, essayer différents séparateurs
