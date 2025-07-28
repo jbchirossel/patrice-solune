@@ -8,7 +8,6 @@ st.title("Traitement de fichiers CSV/Excel fournisseur")
 st.info("""
 📋 **Instructions importantes :**
 - **Fichiers Excel** : Si le fichier ne se traite pas, téléchargez-le en format .xlsx dans Excel
-- **Format recommandé** : .xlsx pour une meilleure compatibilité
 """)
 
 uploaded_files = st.file_uploader("Déposez vos fichiers CSV ou Excel (séparateur ;)", type=["csv", "xlsx"], accept_multiple_files=True)
