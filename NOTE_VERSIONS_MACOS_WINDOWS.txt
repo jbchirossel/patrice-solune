@@ -1,0 +1,122 @@
+========================================
+NOTE : VERSIONS MACOS vs WINDOWS
+========================================
+
+🔍 PROBLÈME IDENTIFIÉ :
+Les mêmes versions de packages Python peuvent fonctionner sur macOS
+mais pas sur Windows à cause de différences de système d'exploitation.
+
+========================================
+VERSIONS QUI FONCTIONNENT SUR MACOS :
+========================================
+
+✅ TESTÉ ET FONCTIONNE SUR MACOS :
+- Python : 3.13.3
+- pandas : 2.3.1
+- openpyxl : 3.1.5
+- streamlit : 1.47.0
+
+========================================
+VERSIONS RECOMMANDÉES POUR WINDOWS :
+========================================
+
+✅ VERSIONS STABLES POUR WINDOWS :
+- Python : 3.11 ou 3.12 (plus stable que 3.13)
+- pandas : 2.1.4
+- openpyxl : 3.1.2
+- streamlit : 1.28.1
+
+========================================
+COMMANDES WINDOWS :
+========================================
+
+1. DÉSINSTALLER LES VERSIONS ACTUELLES :
+   py -m pip uninstall pandas openpyxl streamlit -y
+
+2. INSTALLER VERSIONS STABLES WINDOWS :
+   py -m pip install pandas==2.1.4 openpyxl==3.1.2 streamlit==1.28.1
+
+3. VÉRIFIER LES VERSIONS :
+   py -m pip show pandas
+   py -m pip show openpyxl
+   py -m pip show streamlit
+
+========================================
+POURQUOI CES DIFFÉRENCES ?
+========================================
+
+🔧 FACTEURS TECHNIQUES :
+
+1. GESTION DES PACKAGES :
+   - macOS : Unix-based, plus stable
+   - Windows : Peut avoir des conflits avec les DLLs
+
+2. VERSIONS PYTHON :
+   - macOS : Python 3.13.3 (testé)
+   - Windows : Python 3.13 (peut être différent)
+
+3. CHEMINS DE FICHIERS :
+   - macOS : /usr/local/lib/python3.13/
+   - Windows : C:\Users\...\AppData\Local\Programs\Python\
+
+4. DÉPENDANCES SYSTÈME :
+   - macOS : Bibliothèques Unix
+   - Windows : DLLs Windows
+
+========================================
+ERREUR RENCONTRÉE SUR WINDOWS :
+========================================
+
+❌ TypeError: _NamedCellStyle.__init__() got an unexpected keyword argument 'biltinId'
+    Did you mean 'builtinId'?
+
+🔍 CAUSE : Incompatibilité entre pandas et openpyxl
+    sur Windows avec Python 3.13
+
+✅ SOLUTION : Utiliser des versions plus anciennes
+    mais plus stables sur Windows
+
+========================================
+SOLUTIONS ALTERNATIVES :
+========================================
+
+OPTION 1 - Versions encore plus anciennes :
+   py -m pip install pandas==1.5.3 openpyxl==3.0.10 streamlit==1.25.0
+
+OPTION 2 - Environnement virtuel :
+   py -m venv venv
+   venv\Scripts\activate
+   py -m pip install pandas==2.1.4 openpyxl==3.1.2 streamlit==1.28.1
+
+OPTION 3 - Downgrader Python :
+   Installer Python 3.11 depuis python.org
+   Puis installer les packages
+
+========================================
+RECOMMANDATION FINALE :
+========================================
+
+📋 POUR PATRICE (WINDOWS) :
+1. Utiliser les versions stables Windows
+2. Si problème persiste, essayer Python 3.11
+3. Toujours tester avec un environnement virtuel
+
+📋 POUR MACOS :
+1. Les versions actuelles fonctionnent parfaitement
+2. Pas besoin de changement
+
+========================================
+NOTES IMPORTANTES :
+========================================
+
+⚠️  C'est normal que les mêmes versions ne fonctionnent pas
+    sur macOS et Windows. C'est un problème classique
+    en développement Python.
+
+✅  La solution est d'utiliser des versions adaptées
+    à chaque système d'exploitation.
+
+🔧  Toujours tester sur les deux plateformes
+    avant de déployer une application.
+
+======================================== 

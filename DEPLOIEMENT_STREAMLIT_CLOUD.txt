@@ -1,0 +1,94 @@
+========================================
+DÉPLOIEMENT SUR STREAMLIT CLOUD
+========================================
+
+🚀 AVANTAGES :
+- Gratuit pour les projets publics
+- Pas de problème de versions (géré par Streamlit)
+- Déploiement automatique depuis GitHub
+- Accessible depuis n'importe quel navigateur
+
+========================================
+ÉTAPES DE DÉPLOIEMENT :
+========================================
+
+1. CRÉER UN COMPTE GITHUB :
+   - Aller sur github.com
+   - Créer un compte gratuit
+   - Créer un nouveau repository
+
+2. UPLOADER VOTRE CODE :
+   - Uploader tous les fichiers du projet
+   - Inclure requirements.txt et .streamlit/config.toml
+
+3. CRÉER UN COMPTE STREAMLIT CLOUD :
+   - Aller sur share.streamlit.io
+   - Se connecter avec GitHub
+   - Cliquer sur "New app"
+
+4. CONFIGURER L'APPLICATION :
+   - Repository : votre-repo-github
+   - Branch : main
+   - Main file path : composants/streamlit_app.py
+
+5. DÉPLOYER :
+   - Cliquer sur "Deploy!"
+   - Attendre quelques minutes
+   - Votre app sera accessible via une URL
+
+========================================
+STRUCTURE DU PROJET POUR GITHUB :
+========================================
+
+📁 Votre repository doit contenir :
+├── requirements.txt
+├── .streamlit/
+│   └── config.toml
+├── composants/
+│   ├── streamlit_app.py
+│   └── requirements.txt
+├── LANCEZ_MOI.txt
+├── WINDOWS_INSTRUCTIONS.txt
+└── NOTE_VERSIONS_MACOS_WINDOWS.txt
+
+========================================
+AVANTAGES POUR PATRICE :
+========================================
+
+✅ Plus besoin d'installer Python sur son PC
+✅ Plus de problème de versions
+✅ Accessible depuis n'importe quel navigateur
+✅ Fonctionne sur Windows, Mac, Linux
+✅ Mise à jour automatique quand vous modifiez le code
+
+========================================
+URL FINALE :
+========================================
+
+Une fois déployé, Patrice pourra accéder à l'application via :
+https://votre-app-name.streamlit.app
+
+========================================
+COMMANDES GIT POUR UPLOADER :
+========================================
+
+1. Initialiser Git :
+   git init
+   git add .
+   git commit -m "Initial commit"
+
+2. Créer repository sur GitHub et uploader :
+   git remote add origin https://github.com/votre-username/votre-repo.git
+   git branch -M main
+   git push -u origin main
+
+========================================
+NOTES IMPORTANTES :
+========================================
+
+⚠️  Le repository doit être PUBLIC pour la version gratuite
+✅  Streamlit Cloud gère automatiquement les versions
+✅  Plus besoin de gérer les problèmes macOS/Windows
+✅  Déploiement automatique à chaque push sur GitHub
+
+======================================== 
