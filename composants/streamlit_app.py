@@ -10,11 +10,11 @@ st.title("Traitement de fichiers CSV/Excel fournisseur")
 st.info("""
 📋 **Instructions importantes :**
 - **Fichiers Excel** : Si le fichier ne se traite pas, ouvrez-le dans Excel et sauvegardez en format .xlsx
-- **Fichiers CSV** : Assurez-vous qu'ils utilisent le point-virgule (;) comme séparateur
+- **Fichiers CSV** : L'application détecte automatiquement le séparateur (virgule, point-virgule, tabulation)
 - **Format recommandé** : .xlsx pour une meilleure compatibilité
 """)
 
-uploaded_files = st.file_uploader("Déposez vos fichiers CSV ou Excel (séparateur ;)", type=["csv", "xlsx"], accept_multiple_files=True)
+uploaded_files = st.file_uploader("Déposez vos fichiers CSV ou Excel", type=["csv", "xlsx"], accept_multiple_files=True)
 
 if uploaded_files:
     for uploaded_file in uploaded_files:
@@ -31,14 +31,25 @@ if uploaded_files:
                 st.info("3. Rechargez le fichier dans l'application")
                 continue
         else:
-            # Essayer différents encodages pour les fichiers CSV
-            try:
-                df = pd.read_csv(uploaded_file, sep=';', dtype=str, encoding='utf-8')
-            except UnicodeDecodeError:
-                try:
-                    df = pd.read_csv(uploaded_file, sep=';', dtype=str, encoding='latin-1')
-                except UnicodeDecodeError:
-                    df = pd.read_csv(uploaded_file, sep=';', dtype=str, encoding='cp1252')
+            # Essayer différents encodages et séparateurs pour les fichiers CSV
+            separators = [';', ',', '\t']  # Point-virgule, virgule, tabulation
+            encodings = ['utf-8', 'latin-1', 'cp1252']
+            
+            df = None
+            for sep in separators:
+                for encoding in encodings:
+                    try:
+                        df = pd.read_csv(uploaded_file, sep=sep, dtype=str, encoding=encoding)
+                        st.success(f"Fichier CSV lu avec succès (séparateur: '{sep}', encodage: {encoding})")
+                        break
+                    except Exception:
+                        continue
+                if df is not None:
+                    break
+            
+            if df is None:
+                st.error("Impossible de lire le fichier CSV. Vérifiez le format et l'encodage.")
+                continue
 
         # Colonnes à garder
         colonnes_a_garder = [
