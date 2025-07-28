@@ -13,15 +13,12 @@ if uploaded_files:
         # Lecture du fichier uploadé selon l'extension
         if uploaded_file.name.lower().endswith('.xlsx'):
             try:
-                # Essayer d'abord avec openpyxl
+                # Utiliser openpyxl avec gestion d'erreur robuste
                 df = pd.read_excel(uploaded_file, dtype=str, engine='openpyxl')
             except Exception as e:
-                try:
-                    # Si ça échoue, essayer avec xlrd
-                    df = pd.read_excel(uploaded_file, dtype=str, engine='xlrd')
-                except Exception as e2:
-                    st.error(f"Impossible de lire le fichier Excel. Erreur: {str(e2)}")
-                    continue
+                st.error(f"Impossible de lire le fichier Excel. Erreur: {str(e)}")
+                st.info("Essayez de sauvegarder votre fichier Excel en format .xlsx plus récent ou convertissez-le en CSV.")
+                continue
         else:
             df = pd.read_csv(uploaded_file, sep=';', dtype=str)
 
