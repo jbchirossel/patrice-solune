@@ -25,16 +25,10 @@ if uploaded_files:
                 df = pd.read_excel(uploaded_file, dtype=str)
             except Exception as e:
                 st.error(f"Erreur lors de la lecture du fichier Excel : {e}")
-                st.info("💡 PROBLÈME D'ENCODAGE DÉTECTÉ")
-                st.info("Le fichier semble avoir un encodage spécial (base64, compression, etc.)")
-                st.info("")
-                st.info("🔧 SOLUTIONS :")
+                st.info("💡 SOLUTION : Enregistrez le fichier au format .xlsx dans Excel")
                 st.info("1. Ouvrez le fichier dans Excel")
-                st.info("2. Cliquez sur 'Fichier' → 'Enregistrer sous'")
-                st.info("3. Choisissez 'Classeur Excel (.xlsx)'")
-                st.info("4. Rechargez le fichier dans l'application")
-                st.info("")
-                st.info("💡 Alternative : Essayez de renommer le fichier en .csv")
+                st.info("2. Fichier → Enregistrer sous → Classeur Excel (.xlsx)")
+                st.info("3. Rechargez le fichier dans l'application")
                 continue
         else:
             # Essayer différents encodages pour les fichiers CSV
