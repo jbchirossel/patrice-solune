@@ -4,6 +4,7 @@ import os
 import io
 import base64
 import zipfile
+import chardet
 
 st.title("Traitement de fichiers CSV/Excel fournisseur")
 
@@ -21,8 +22,17 @@ if uploaded_files:
         st.subheader(f"Fichier : {uploaded_file.name}")
         # Lecture du fichier uploadé selon l'extension
         if uploaded_file.name.lower().endswith('.xlsx'):
+            # Debug : Analyser l'encodage du fichier
+            file_bytes = uploaded_file.read()
+            uploaded_file.seek(0)  # Remettre le curseur au début
+            
+            # Détecter l'encodage
+            result = chardet.detect(file_bytes)
+            st.info(f"🔍 DEBUG - Encodage détecté : {result}")
+            
             try:
                 df = pd.read_excel(uploaded_file, dtype=str)
+                st.success("✅ Fichier Excel lu avec succès")
             except Exception as e:
                 st.error(f"Erreur lors de la lecture du fichier Excel : {e}")
                 st.info("💡 SOLUTION : Enregistrez le fichier au format .xlsx dans Excel")
