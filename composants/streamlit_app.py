@@ -20,7 +20,22 @@ if uploaded_files:
                 st.info("Essayez de convertir votre fichier en CSV (séparateur ;) ou contactez le développeur.")
                 continue
         else:
-            df = pd.read_csv(uploaded_file, sep=';', dtype=str)
+            # Pour les CSV, essayer différents séparateurs
+            try:
+                # Essayer d'abord le point-virgule
+                df = pd.read_csv(uploaded_file, sep=';', dtype=str)
+            except:
+                try:
+                    # Si ça échoue, essayer la virgule
+                    df = pd.read_csv(uploaded_file, sep=',', dtype=str)
+                except:
+                    try:
+                        # Si ça échoue, essayer la tabulation
+                        df = pd.read_csv(uploaded_file, sep='\t', dtype=str)
+                    except Exception as e:
+                        st.error(f"Impossible de lire le fichier CSV. Erreur: {str(e)}")
+                        st.info("Vérifiez que votre fichier utilise un séparateur (; ou , ou tabulation)")
+                        continue
 
         # Colonnes à garder
         colonnes_a_garder = [
