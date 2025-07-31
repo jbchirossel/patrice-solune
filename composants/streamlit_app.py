@@ -38,7 +38,7 @@ if uploaded_files:
 
         # Colonnes à garder
         colonnes_a_garder = [
-            'Réf Fournisseur',
+            'Réf ARP',
             'Désignation',
             'Date besoin',
             'Version',
@@ -54,7 +54,7 @@ if uploaded_files:
 
         # Renommer les colonnes
         renommage = {
-            'Réf Fournisseur': 'Référence',
+            'Réf ARP': 'Référence',
             'Désignation': 'Désignation',
         }
         df = df.rename(columns=renommage)
@@ -62,8 +62,8 @@ if uploaded_files:
         # Convertir 'Date besoin' en datetime pour groupby (format automatique)
         df['Date besoin'] = pd.to_datetime(df['Date besoin'], errors='coerce')
 
-        # Groupby sur Référence, Ebauche, Version
-        resultat = df.groupby(['Référence', 'Ebauche', 'Version'], as_index=False).agg({
+        # Groupby sur Référence
+        resultat = df.groupby(['Référence'], as_index=False).agg({
             'Désignation': 'first',
             'Date besoin': 'min',
             'Qté': lambda x: pd.to_numeric(x, errors='coerce').sum(),
