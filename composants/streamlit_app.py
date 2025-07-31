@@ -62,8 +62,8 @@ if uploaded_files:
         # Convertir 'Date besoin' en datetime pour groupby (format automatique)
         df['Date besoin'] = pd.to_datetime(df['Date besoin'], errors='coerce')
 
-        # Groupby sur Référence
-        resultat = df.groupby(['Référence'], as_index=False).agg({
+        # Groupby sur Référence et Ebauche
+        resultat = df.groupby(['Référence', 'Ebauche'], as_index=False).agg({
             'Référence': 'first',
             'Désignation': 'first',
             'Date besoin': 'min',
