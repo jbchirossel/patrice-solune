@@ -64,8 +64,11 @@ if uploaded_files:
 
         # Groupby sur Référence
         resultat = df.groupby(['Référence'], as_index=False).agg({
+            'Référence': 'first',
             'Désignation': 'first',
             'Date besoin': 'min',
+            'Ebauche': 'first',
+            'Version': 'first',
             'Qté': lambda x: pd.to_numeric(x, errors='coerce').sum(),
             'Prix': 'first',
             'Bande': 'first',
