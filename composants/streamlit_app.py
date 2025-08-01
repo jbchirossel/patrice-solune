@@ -120,7 +120,7 @@ if uploaded_files:
         st.dataframe(resultat)
 
         # Préparation du CSV à télécharger
-        csv = resultat.to_csv(sep=',', index=False, encoding='utf-8-sig')
+        csv = resultat.to_csv(sep=';', index=False, encoding='utf-8')
         st.download_button(
             label=f"Télécharger le CSV traité : {nom_commande}.csv",
             data=csv,
